@@ -58,13 +58,27 @@ class ParseCommand extends BaseCommand
     }
 
     /**
+     * Checks if directory installation directory exists and has any file inside
+     *
+     * @param string $path
+     * @return bool
+     */
+    public function directoryExistsAndHasAnyFile(string $path): bool
+    {
+        $directoryExists = File::isDirectory($path);
+        $hasAnyFile = collect(File::allFiles($path))->map(fn($file) => $file->getPathName())->isNotEmpty();
+
+        return $directoryExists && $hasAnyFile;
+    }
+
+    /**
      * Command base functionality
      *
      * @return void
      */
     public function handle(): void
     {
-        if(File::isDirectory($this->installationPath) && !File::isEmptyDirectory($this->installationPath))
+        if($this->directoryExistsAndHasAnyFile($this->installationPath))
         {
             $paths = collect(File::allFiles($this->installationPath))
                 ->map(fn($file) => str_replace($this->installationPath . '/', '', $file->getPathName()));
@@ -74,6 +88,6 @@ class ParseCommand extends BaseCommand
             $this->components->info('Config file installer.php created successfully');
         }
         else
-            $this->throwError("Installation directory doesn't exist or is empty");
+            $this->throwError("Installation directory doesn't exist or has any files inside it");
     }
 }
