@@ -1,0 +1,28 @@
+{
+    "name": "felipetti/installer",
+    "description": "This package is an auto-generated installer for Laravel projects",
+    "minimum-stability": "stable",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Guillermo Felipetti",
+            "email": "guill388@hotmail.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Felipetti\\Installer\\InstallerServiceProvider"
+            ]
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Felipetti\\Installer\\": "src"
+        }
+    },
+    "require": {
+        "php": "^8.1",
+        "laravel/framework": "^9.18"
+    }
+}
