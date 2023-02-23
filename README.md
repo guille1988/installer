@@ -77,7 +77,7 @@ file for you.
 Once ths config file it's generated, and all files have the appropriated mode and extension, you can run:
 
 ```bash
-    php artisan make installation
+    php artisan make:installation
 ```
 
 The installation process of copying files will start, and they will be merged on the Laravel project.
