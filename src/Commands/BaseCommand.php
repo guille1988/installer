@@ -2,6 +2,7 @@
 
 namespace Felipetti\Installer\Commands;
 
+use Illuminate\Support\Facades\File;
 use JetBrains\PhpStorm\NoReturn;
 use Illuminate\Console\Command;
 
@@ -29,6 +30,23 @@ abstract class BaseCommand extends Command
     {
         $this->components->error($message);
         exit(1);
+    }
+    
+     /**
+     * Checks if directory installation directory exists and has any file inside
+     *
+     * @param string $path
+     * @return bool
+     */
+    public function directoryExistsAndHasAnyFile(string $path): bool
+    {
+        $response = false;
+
+        if(File::isDirectory($path))
+            if(collect(File::allFiles($path))->map(fn($file) => $file->getPathName())->isNotEmpty())
+                $response = true;
+
+        return $response;
     }
 
     /**

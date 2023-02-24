@@ -98,17 +98,22 @@ class InstallationCommand extends BaseCommand
      */
     public function handle(): void
     {
-        collect(config('installer'))->each(fn($mode, $file) => $this->install($file, $mode));
+    	if($this->directoryExistsAndHasAnyFile($this->installationPath))
+        {
+	     collect(config('installer'))->each(fn($mode, $file) => $this->install($file, $mode));
 
-        echo PHP_EOL;
-        $this->info('  File copy process finished successfully');
+	     echo PHP_EOL;
+	     $this->info('  File copy process finished successfully');
 
-        if($this->confirm('Do you wish to delete installation folder?'))
-            File::deleteDirectory($this->installationPath);
+	     if($this->confirm('Do you wish to delete installation folder?'))
+		File::deleteDirectory($this->installationPath);
 
-        if($this->confirm('Do you wish to delete config file?'))
-            File::delete(config_path('installer.php'));
+	    if($this->confirm('Do you wish to delete config file?'))
+		File::delete(config_path('installer.php'));
 
-        $this->components->info('Installation completed successfully');
+	    $this->components->info('Installation completed successfully');
+        }
+        else
+            $this->throwError("Installation directory doesn't exist or has any files inside it");
     }
 }

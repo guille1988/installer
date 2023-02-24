@@ -58,20 +58,6 @@ class ParseCommand extends BaseCommand
     }
 
     /**
-     * Checks if directory installation directory exists and has any file inside
-     *
-     * @param string $path
-     * @return bool
-     */
-    public function directoryExistsAndHasAnyFile(string $path): bool
-    {
-        $directoryExists = File::isDirectory($path);
-        $hasAnyFile = collect(File::allFiles($path))->map(fn($file) => $file->getPathName())->isNotEmpty();
-
-        return $directoryExists && $hasAnyFile;
-    }
-
-    /**
      * Command base functionality
      *
      * @return void
